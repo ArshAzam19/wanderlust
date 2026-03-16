@@ -1,0 +1,44 @@
+<%layout("/layouts/boilerplate") %>
+<div class="row mt-3">
+  <div class="col-8 offset-2">
+    <h3>Profile</h3>
+    <form method="POST" action="/profile?_method=PUT" novalidate>
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input
+          name="user[name]"
+          value="<%= user.name %>"
+          type="text"
+          class="form-control"
+          id="name"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input
+          name="user[username]"
+          value="<%= user.username %>"
+          type="text"
+          class="form-control"
+          id="username"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          name="user[email]"
+          value="<%= user.email %>"
+          type="text"
+          class="form-control"
+          id="email"
+        />
+      </div>
+
+      <button class="btn btn-dark edit-btn mt-3 mb-3">Save</button>
+      <a class="nav-link" href="/logout"><b>LogOut</b></a>
+      <br /><br />
+    </form>
+  </div>
+</div>

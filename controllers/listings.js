@@ -5,6 +5,19 @@ module.exports.index = async (req, res) => {
   res.render("listings/index.ejs", { allListings });
 };
 
+module.exports.search = async (req, res) => {
+  const { query } = req.query;
+  const allListings = await Listing.find({
+    $or: [
+      { title: { $regex: query, $options: "i" } },
+      { location: { $regex: query, $options: "i" } },
+      { country: { $regex: query, $options: "i" } },
+    ],
+  });
+
+  res.render("listings/index.ejs", { allListings });
+};
+
 module.exports.renderNewForm = (req, res) => {
   res.render("listings/new.ejs");
 };
@@ -17,6 +30,7 @@ module.exports.showListing = async (req, res) => {
   if (!listing) {
     req.flash("error", "Listing you requested for does not exist!");
     res.redirect("/listings");
+    S;
   }
   res.render("listings/show.ejs", { listing });
 };

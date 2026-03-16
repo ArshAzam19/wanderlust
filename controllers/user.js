@@ -1,3 +1,4 @@
+const Listing = require("../models/listing");
 const User = require("../models/user");
 
 module.exports.renderSignUpForm = (req, res) => {
@@ -6,8 +7,8 @@ module.exports.renderSignUpForm = (req, res) => {
 
 module.exports.signup = async (req, res, next) => {
   try {
-    let { username, email, password } = req.body;
-    const newUser = new User({ email, username });
+    let { name, username, email, password } = req.body;
+    const newUser = new User({ name, email, username });
     const registeredUser = await User.register(newUser, password);
     req.login(registeredUser, (err) => {
       if (err) {
@@ -31,6 +32,35 @@ module.exports.login = (req, res) => {
   let redirectUrl = res.locals.redirectUrl || "/listings";
   delete req.session.redirectUrl;
   return res.redirect(redirectUrl);
+};
+
+module.exports.profileGet = async (req, res) => {
+  if (!req.user) {
+    req.flash("error", "Please login first");
+    return res.redirect("/login");
+  }
+  const user = await User.findById(req.user._id);
+  const listing = await Listing.find({ owner: req.user._id });
+
+  res.render("users/profile.ejs", { user, listing });
+};
+
+module.exports.profileUpdate = async (req, res) => {
+  let updateduser = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      ...req.body.user,
+    },
+    { new: true },
+  );
+
+  req.login(updateduser, (err) => {
+    if (err) {
+      return next(err);
+    }
+    req.flash("success", "Profile upadated successfully");
+    res.redirect("/profile");
+  });
 };
 
 module.exports.logout = (req, res, next) => {

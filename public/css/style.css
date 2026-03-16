@@ -14,6 +14,11 @@ body {
   background-color: white;
 }
 
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
 .fa-compass {
   color: #fe424d;
   font-size: 2rem;
@@ -23,11 +28,9 @@ body {
   color: #222222 !important;
 }
 
-/* .nav-link:hover {
-  color: #000000 !important;
-  font-weight: 600;
-  font-size: 1.2rem;
-} */
+.nav-profile {
+  font-size: 1.4rem !important;
+}
 
 /* Footer */
 .footer {
